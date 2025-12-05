@@ -3,126 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الخطوة الأخيرة: التحقق البشري</title>
+    <title>بوابة التقديم الرسمية - الخطوة الأخيرة</title>
+    
+    <!-- استدعاء خطوط جوجل المستخدمة في القالب -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+
     <style>
-        /* تنسيقات عامة لتكون الصفحة جميلة وسريعة */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
+        /* 
+           ========================================
+           استخراج متغيرات الألوان من قالب Plus UI
+           ========================================
+        */
+        :root {
+            --body-bg: #fdfcff;      /* لون خلفية الموقع */
+            --content-bg: #ffffff;   /* لون خلفية المقال */
+            --text-color: #1d2129;   /* لون النص */
+            --link-color: #1976d2;   /* اللون الرئيسي (الأزرق) */
+            --border-color: #e6e6e6; /* لون الحدود */
+            --shadow: 0 5px 35px rgba(0,0,0,.07); /* ظل الصندوق المميز للقالب */
+            --radius: 8px;           /* انحناء الحواف */
+            --header-height: 60px;
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif; /* الخط المستخدم غالباً في النسخ العربية */
+            background-color: var(--body-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding-top: var(--header-height); /* مساحة للهيدر */
+        }
+
+        /* محاكاة الهيدر (الشريط العلوي) */
+        .fake-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: var(--content-bg);
+            border-bottom: 1px solid var(--border-color);
             display: flex;
-            justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            padding: 0 20px;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
 
-        .container {
-            background-color: #ffffff;
-            width: 90%;
-            max-width: 450px; /* عرض مناسب للموبايل */
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        .header-title {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--text-color);
+        }
+
+        .header-icon {
+            margin-left: 15px;
+            width: 24px;
+            height: 24px;
+            fill: var(--text-color);
+        }
+
+        /* الحاوية الرئيسية (تشبه منطقة التدوينات) */
+        .main-wrapper {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+
+        /* الصندوق الأبيض (مثل تدوينة بلوجر) */
+        .post-card {
+            background: var(--content-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            padding: 30px;
             text-align: center;
-            border-top: 5px solid #25D366; /* لون واتساب */
         }
 
+        /* العناوين */
         h1 {
-            color: #2c3e50;
-            font-size: 22px;
-            margin-bottom: 10px;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-color);
         }
 
         p {
-            color: #555;
             font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 20px;
+            color: #555;
+            margin-bottom: 25px;
         }
 
-        .alert-box {
-            background-color: #fff3cd;
-            color: #856404;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 14px;
+        /* صورة توضيحية */
+        .hero-image {
+            width: 100%;
+            max-height: 250px;
+            object-fit: cover;
+            border-radius: var(--radius);
             margin-bottom: 20px;
-            border: 1px solid #ffeeba;
+            background-color: #eee;
         }
 
         /* شريط التقدم */
-        .progress-container {
-            width: 100%;
-            background-color: #e9ecef;
-            border-radius: 20px;
+        .progress-box {
+            background: #f0f2f5;
+            padding: 20px;
+            border-radius: var(--radius);
             margin: 20px 0;
-            height: 20px;
+            border: 1px solid #ddd;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 15px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
             overflow: hidden;
+            margin-top: 10px;
         }
 
         .progress-bar {
             height: 100%;
             width: 0%;
-            background-color: #25D366;
-            transition: width 0.3s ease;
-            text-align: center;
-            line-height: 20px;
-            color: white;
-            font-size: 12px;
-            font-weight: bold;
+            background-color: #25D366; /* لون واتساب */
+            transition: width 0.4s ease;
         }
 
-        /* زر الواتساب */
-        .whatsapp-btn {
-            background-color: #25D366;
-            color: white;
-            border: none;
-            padding: 15px 20px;
-            font-size: 18px;
-            border-radius: 50px;
-            cursor: pointer;
-            width: 100%;
+        /* الأزرار */
+        .btn {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
+            width: 100%;
+            padding: 14px;
+            border-radius: var(--radius);
+            font-size: 16px;
+            font-weight: 700;
             text-decoration: none;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            animation: pulse 2s infinite; /* تأثير النبض لجذب الانتباه */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
             margin-bottom: 15px;
         }
 
-        .whatsapp-btn:hover {
-            background-color: #128c7e;
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: white;
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+            animation: pulse 2s infinite;
         }
 
-        /* أيقونة واتساب بسيطة */
-        .icon {
-            margin-left: 10px;
-            font-size: 24px;
+        .btn-whatsapp:hover {
+            background-color: #1ebc57;
         }
 
-        /* الزر النهائي (المغلق) */
-        .final-link {
+        /* الزر النهائي (مغلق) */
+        .btn-final {
             background-color: #95a5a6;
             color: white;
-            padding: 15px;
-            border-radius: 8px;
-            text-decoration: none;
-            display: block;
-            font-weight: bold;
-            pointer-events: none; /* يمنع الضغط */
-            opacity: 0.6;
-            transition: all 0.3s;
+            pointer-events: none;
+            opacity: 0.7;
         }
 
-        .final-link.active {
-            background-color: #3498db; /* لون أزرق للتحميل */
+        /* الزر النهائي (مفتوح) */
+        .btn-final.active {
+            background-color: var(--link-color); /* أزرق القالب */
             pointer-events: auto;
             opacity: 1;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
+            box-shadow: 0 4px 10px rgba(25, 118, 210, 0.3);
+        }
+
+        /* أيقونات SVG */
+        .icon {
+            width: 20px;
+            height: 20px;
+            margin-left: 10px;
+            fill: currentColor;
         }
 
         @keyframes pulse {
@@ -131,115 +192,128 @@
             100% { transform: scale(1); }
         }
 
-        .counter-text {
-            font-weight: bold;
-            color: #e74c3c;
+        /* تنبيهات */
+        .alert {
+            background-color: #e3f2fd;
+            color: var(--link-color);
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            border: 1px solid #bbdefb;
         }
 
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- العنوان -->
-        <h1>مبروك! أنت مؤهل مبدئياً 🇨🇦</h1>
-        
-        <!-- صندوق التنبيه -->
-        <div class="alert-box">
-            ⚠️ تنبيه: نظراً للضغط الهائل، يجب إثبات أنك شخص حقيقي ولست "روبوت" للحصول على الرابط.
+    <!-- الهيدر الوهمي (ليشبه القالب) -->
+    <header class="fake-header">
+        <!-- أيقونة قائمة -->
+        <svg class="header-icon" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+        <!-- اسم الموقع (غير هذا إلى اسم موقعك) -->
+        <span class="header-title" style="margin-right: 15px;">بوابة الهجرة والعمل</span>
+    </header>
+
+    <div class="main-wrapper">
+        <div class="post-card">
+            
+            <!-- صورة توحي بالنجاح -->
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiXcTftM-dWwVR9KOkc8PzPng9FbMz-KC083W_hWFV2t2LA10-l0BtsfTj3J3WL2TrClC8aohb-H2Qn_W2DylQ7R11V71k2SGozHBnjSNAKLEUbKzLW4ALsYwMEjcEGSCIyfGLQwERqsQRFlnTv0wm8M0CkGroeYzpKJ_ZPC6_diPbuINzcP075OzTcF7I/s0/meta-image.png" alt="Success" class="hero-image">
+
+            <h1>مبروك! ملفك مقبول مبدئياً ✅</h1>
+            
+            <div class="alert">
+                نظراً للضغط الشديد على الموقع، ولضمان وصول استمارة التقديم للأشخاص الجادين فقط، قمنا بتفعيل نظام التحقق البشري.
+            </div>
+
+            <p>
+                للحصول على رابط التقديم الرسمي (PDF) ورقم الملف الخاص بك، يرجى <b>مشاركة هذه الفرصة مع 5 من أصدقائك</b> أو مجموعات الواتساب المهتمة بالهجرة.
+            </p>
+
+            <!-- صندوق التقدم -->
+            <div class="progress-box">
+                <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 5px;">
+                    <span>نسبة التحقق:</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <p style="margin: 10px 0 0 0; font-size: 13px; color: #777;">
+                    المتبقي: <span id="clicksLeft" style="color:red; font-weight:bold;">5</span> مشاركات
+                </p>
+            </div>
+
+            <!-- زر واتساب -->
+            <button class="btn btn-whatsapp" onclick="shareClick()">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                اضغط هنا للمشاركة في واتساب
+            </button>
+
+            <!-- الزر النهائي -->
+            <a href="#" id="finalLink" class="btn btn-final" target="_blank" rel="nofollow noopener noreferrer">
+                🔒 الرابط مغلق (أكمل المشاركة لفتحه)
+            </a>
+
         </div>
-
-        <p>
-            لإتمام التسجيل والحصول على استمارة العمل الرسمية، يرجى مشاركة هذه الفرصة مع <span class="counter-text">5</span> من أصدقائك أو مجموعاتك على واتساب.
-        </p>
-
-        <!-- شريط التقدم -->
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar">0%</div>
-        </div>
-
-        <!-- زر المشاركة (يقوم بالفعل) -->
-        <a href="javascript:void(0)" class="whatsapp-btn" onclick="shareOnWhatsApp()">
-            <span class="icon">📱</span> شارك الآن عبر واتساب
-        </a>
-
-        <!-- رسالة الحالة -->
-        <p id="statusMessage" style="font-size: 14px; color: #777;">
-            المتبقي: <span id="timeLeft" style="color:red; font-weight:bold;">5</span> مشاركات
-        </p>
-
-        <!-- الزر النهائي (سيظهر بعد المشاركة) -->
-        <a href="#" id="finalButton" class="final-link">
-            🔒 الرابط مغلق (أكمل المشاركة لفتحه)
-        </a>
-
     </div>
 
     <script>
-        // إعدادات التحكم
-        var sharesRequired = 5; // عدد المشاركات المطلوبة
-        var currentShares = 0; // العداد الحالي
+        // إعدادات الروابط (قم بتعديلها هنا)
         
-        // رابط الصفحة الأولى (موقعك النظيف) الذي سيتم مشاركته
-        // ملاحظة: استخدم رابط مختصر bit.ly أو رابط بحث جوجل كما اتفقنا
-        var linkToShare = "https://www.google.com/search?q=site:YOUR-DOMAIN-A.com+وظائف";
+        // 1. رابط الصفحة الأولى في مدونتك (التي سيتم مشاركتها)
+        // يفضل استخدام رابط بحث جوجل لزيادة الأمان كما اتفقنا
+        const SHARE_URL = "https://www.google.com/search?q=site:YOUR-WEBSITE.com+وظائف+كندا";
         
-        // رسالة الواتساب الجذابة
-        var messageText = "عاجل! 🇨🇦 قائمة المقاطعات الكندية التي تطلب عمالاً عرباً بدون شرط اللغة في 2025. الرواتب تصل لـ 4200$. التسجيل مفتوح هنا لفترة محدودة: ";
-        
-        // الرابط النهائي (رابط الوظيفة الرسمي أو صفحة Google Sites الوسيطة)
-        var finalDestination = "https://sites.google.com/view/YOUR-BUFFER-PAGE";
+        // 2. نص الرسالة الجذاب
+        const SHARE_MSG = "عاجل! 🇨🇦 كندا تفتح باب التوظيف المباشر للعرب بدون شرط اللغة. الرواتب تصل لـ 4000$. التسجيل مفتوح هنا: ";
 
-        function shareOnWhatsApp() {
-            // 1. تجهيز رابط واتساب
-            var whatsappUrl = "whatsapp://send?text=" + encodeURIComponent(messageText + " " + linkToShare);
-            
-            // 2. فتح واتساب
+        // 3. الرابط النهائي (صفحة Google Sites الوسيطة أو رابط الوظيفة)
+        const FINAL_URL = "https://sites.google.com/view/YOUR-BUFFER-PAGE";
+
+        // منطق العداد
+        let clicks = 0;
+        const requiredClicks = 5;
+
+        function shareClick() {
+            // فتح واتساب
+            const whatsappUrl = `whatsapp://send?text=${encodeURIComponent(SHARE_MSG + " " + SHARE_URL)}`;
             window.location.href = whatsappUrl;
 
-            // 3. زيادة العداد (بعد تأخير بسيط لمحاكاة العودة)
-            setTimeout(function() {
-                currentShares++;
-                updateProgress();
-            }, 2000); // ينتظر ثانيتين ثم يحدث العداد
+            // محاكاة الانتظار وتحديث العداد
+            setTimeout(() => {
+                clicks++;
+                updateUI();
+            }, 2000); 
         }
 
-        function updateProgress() {
-            // حساب النسبة المئوية
-            var percentage = (currentShares / sharesRequired) * 100;
-            
-            // تحديث شريط التقدم
-            var progressBar = document.getElementById("progressBar");
-            if (currentShares <= sharesRequired) {
-                progressBar.style.width = percentage + "%";
-                progressBar.innerHTML = Math.round(percentage) + "%";
-            }
+        function updateUI() {
+            // حساب النسبة
+            const percent = Math.min((clicks / requiredClicks) * 100, 100);
+            const remaining = Math.max(requiredClicks - clicks, 0);
 
-            // تحديث النص المتبقي
-            var remaining = sharesRequired - currentShares;
-            var statusMsg = document.getElementById("timeLeft");
+            // تحديث العناصر
+            document.getElementById('progressBar').style.width = percent + "%";
+            document.getElementById('progressText').innerText = Math.round(percent) + "%";
+            
+            const clicksText = document.getElementById('clicksLeft');
             
             if (remaining > 0) {
-                statusMsg.innerHTML = remaining;
+                clicksText.innerText = remaining;
             } else {
-                // اكتملت المهمة!
-                document.getElementById("statusMessage").innerHTML = "✅ تم التحقق بنجاح!";
-                document.getElementById("statusMessage").style.color = "green";
-                document.getElementById("statusMessage").style.fontWeight = "bold";
+                // اكتملت المهمة
+                document.getElementById('clicksLeft').parentElement.innerHTML = "<span style='color:green; font-weight:bold'>✅ تم التحقق بنجاح!</span>";
                 
-                unlockButton();
+                // تفعيل الزر النهائي
+                const finalBtn = document.getElementById('finalLink');
+                finalBtn.classList.add('active');
+                finalBtn.innerHTML = "📥 اضغط هنا للذهاب لصفحة التقديم";
+                finalBtn.href = FINAL_URL;
+                
+                // إضافة rel للحماية
+                finalBtn.rel = "nofollow noopener noreferrer";
             }
-        }
-
-        function unlockButton() {
-            var btn = document.getElementById("finalButton");
-            btn.classList.add("active"); // تفعيل الستايل
-            btn.innerHTML = "📥 اضغط هنا للذهاب لصفحة التقديم"; // تغيير النص
-            btn.href = finalDestination; // وضع الرابط الحقيقي
-            btn.target = "_blank"; // فتح في نافذة جديدة
-            
-            // إضافة كود الحماية (Rel NoReferrer) برمجياً
-            btn.rel = "nofollow noopener noreferrer";
         }
     </script>
 
